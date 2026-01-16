@@ -1,0 +1,64 @@
+CREATE DATABASE hospital;
+USE hospital;
+
+CREATE TABLE doctor (
+    d_id INT PRIMARY KEY,
+    d_name VARCHAR(20),
+    age INT,
+    gender VARCHAR(5)
+);
+
+CREATE TABLE patient (
+    p_id INT PRIMARY KEY,
+    d_id INT,
+    p_name VARCHAR(20),
+    age INT,
+    gender VARCHAR(20),
+    address VARCHAR(30),
+    disease VARCHAR(20),
+    FOREIGN KEY (d_id) REFERENCES doctor(d_id)
+);
+
+CREATE TABLE room (
+    r_no INT PRIMARY KEY,
+    r_type CHAR(10),
+    status CHAR(10)
+);
+
+CREATE TABLE labrotory (
+    lab_no INT PRIMARY KEY,
+    p_id INT,
+    d_id INT,
+    date DATE,
+    amount DECIMAL(10,2),
+    FOREIGN KEY (p_id) REFERENCES patient(p_id),
+    FOREIGN KEY (d_id) REFERENCES doctor(d_id)
+);
+
+CREATE TABLE inpatient (
+    patient_id INT PRIMARY KEY,
+    r_no INT,
+    lab_no INT,
+    date_of_ads DATE,
+    date_of_dis DATE,
+    FOREIGN KEY (r_no) REFERENCES room(r_no),
+    FOREIGN KEY (lab_no) REFERENCES labrotory(lab_no)
+);
+
+CREATE TABLE outpatient (
+    pat_id INT PRIMARY KEY,
+    date DATE,
+    lab_no INT,
+    FOREIGN KEY (lab_no) REFERENCES labrotory(lab_no)
+);
+
+CREATE TABLE bill (
+    b_no INT PRIMARY KEY,
+    d_charge DECIMAL(10,2),
+    r_charge DECIMAL(10,2),
+    no_of_days INT,
+    lab_charge DECIMAL(10,2),
+    t_amount DECIMAL(10,2),
+    p_id INT,
+    FOREIGN KEY (p_id) REFERENCES patient(p_id)
+);
